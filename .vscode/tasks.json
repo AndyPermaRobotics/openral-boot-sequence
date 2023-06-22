@@ -6,7 +6,13 @@
         {
             "type": "shell",
             "label": "Flutter: Run tests of file",
-            "command": "cd dart/openral_boot_sequence && flutter test ${file}",
+            "command": "cd dart && flutter test ${file}",
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "Flutter: Run all tests",
+            "command": "cd dart && flutter test",
             "problemMatcher": []
         },
         {
