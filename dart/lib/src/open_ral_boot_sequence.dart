@@ -59,7 +59,7 @@ class OpenRalBootSequence {
       );
     }
 
-    final downstreamDiscovery = DiscoveryV2(
+    final downstreamDiscovery = Discovery(
       ralRepository: localRepo,
       rootNodeRalType: localTopNoteRalType,
       primaryDiscoveryDimension: DiscoveryDimension.containerId,
@@ -97,7 +97,7 @@ class OpenRalBootSequence {
 
       // print("Starting upstream discovery...");
 
-      final upstreamDiscovery = DiscoveryV2(
+      final upstreamDiscovery = Discovery(
         ralRepository: remoteRalRepository,
         rootNodeRalType: remoteTopNoteRalType,
         primaryDiscoveryDimension: DiscoveryDimension.containerId,
