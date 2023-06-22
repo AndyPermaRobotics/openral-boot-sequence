@@ -1,0 +1,31 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Flutter: Run tests of file",
+            "command": "cd dart/openral_boot_sequence && flutter test ${file}",
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "Translate to Python",
+            "command": "python3 /Users/andreasblech/Projects/AI/ai-code-translator/main_single.py --file=${file} --targetLanguage=python",
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "Translate to Typescript",
+            "command": "python3 /Users/andreasblech/Projects/AI/ai-code-translator/main_single.py --file=${file} --targetLanguage=typescript",
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "Translate to Flutter/dart",
+            "command": "python3 /Users/andreasblech/Projects/AI/ai-code-translator/main_single.py --file=${file} --targetLanguage=dart",
+            "problemMatcher": []
+        },
+    ],
+}

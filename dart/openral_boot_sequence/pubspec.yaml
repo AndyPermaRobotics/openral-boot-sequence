@@ -1,0 +1,19 @@
+name: openral_boot_sequence
+description: Example implementation of a boot sequence for a software component, that loads it's own environment as a graph of RalObjects.
+version: 1.0.0
+repository: https://github.com/AndyPermaRobotics/openral-boot-sequence
+
+environment:
+  sdk: '>=2.19.6 <3.0.0'
+
+publish_to: none
+
+dependencies:
+  openral_flutter: 
+    git: 
+        url: git@github.com:AndyPermaRobotics/openral-core.git
+        path: flutter/openral_flutter
+
+dev_dependencies:
+  lints: ^2.0.0
+  test: ^1.21.0
