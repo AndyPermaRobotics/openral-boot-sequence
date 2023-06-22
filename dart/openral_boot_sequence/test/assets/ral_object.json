@@ -29,9 +29,9 @@
             "unit": "String"
         },
         {
-            "key": "discoveryStrategies",
-            "value": "[{'mode': 'currentGeolocation.container.UID','topNode': 'farm'}]",
-            "unit": "JSON"
+            "key": "discoveryDimensions",
+            "value": ["containerId", "owner", "linkedObjectRef"],
+            "unit": "Array<String>"
         }
     ],
     "currentGeolocation": {

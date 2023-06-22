@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:openral_boot_sequence/src/model/boot_sequence_result.dart';
 import 'package:openral_boot_sequence/src/model/firebase_connector_ral_object.dart';
 import 'package:openral_boot_sequence/src/model/software_component_ral_object.dart';
-import 'package:openral_boot_sequence/src/ral_object_file_loader.dart';
+import 'package:openral_boot_sequence/src/software_component_ral_object_file_loader.dart';
 import 'package:openral_flutter/discovery/discovery_dimension.dart';
 import 'package:openral_flutter/discovery/discovery_v2.dart';
 import 'package:openral_flutter/repository/ral_object_repository.dart';
@@ -12,7 +12,7 @@ import 'package:openral_flutter/repository/ral_object_repository.dart';
 ///Invoke start() to start the boot sequence.
 class OpenRalBootSequence {
   ///the file in which the cached RalObject of this softwareComponent is stored.
-  ///This file is read by the [RalObjectFileLoader]
+  ///This file is read by the [SoftwareComponentRalObjectFileLoader]
   final String localFilePath;
 
   ///defines the RalType of the top node of the downstream discovery tree.
@@ -38,7 +38,7 @@ class OpenRalBootSequence {
     required Future<RalObjectRepository> Function(FirebaseConnectorSpecificProperties firebaseConnectionProperties) createRemoteRalRepository,
   }) async {
     //1. Get own RalObject from local file
-    _ralObject = RalObjectFileLoader.load(localFilePath);
+    _ralObject = SoftwareComponentRalObjectFileLoader.load(localFilePath);
 
     if (_ralObject == null) {
       throw Exception('No RalObject found in local file.');
@@ -84,8 +84,8 @@ class OpenRalBootSequence {
       // print("INFO: Skipping upstream discovery, because no 'remoteDatabaseConnectionUID' could be found.");
 
       return BootSequenceResult(
-        downstreamTopNode: downstreamTopNode,
-        upstreamTopNode: null,
+        localTopNode: downstreamTopNode,
+        remoteTopNode: null,
       );
     } else {
       //3. What can others do? / Upstream Discovery
@@ -115,8 +115,8 @@ class OpenRalBootSequence {
       // print("Found ${upstreamTopNode.allChildren().length} remote RalObjects + top node.");
 
       return BootSequenceResult(
-        downstreamTopNode: downstreamTopNode,
-        upstreamTopNode: upstreamTopNode,
+        localTopNode: downstreamTopNode,
+        remoteTopNode: upstreamTopNode,
       );
     }
   }
@@ -135,23 +135,6 @@ class OpenRalBootSequence {
       ),
     );
   }
-
-  // Future<MongoDBConnection> _initLocalDatabaseConnection(String databaseConnectionStr) async {
-  //   if (databaseConnectionStr.startsWith("mongodb://") == false) {
-  //     throw Exception(
-  //         'Local database connection string is not a MongoDB connection string. Currently only MongoDB is supported. Expected a string starting with "mongodb://", but got $databaseConnectionStr.');
-  //   } else {
-  //     final connection = MongoDBConnection(databaseConnectionStr);
-
-  //     final result = await connection.connect();
-
-  //     if (result != null) {
-  //       throw Exception(result);
-  //     }
-
-  //     return connection;
-  //   }
-  // }
 
   Future<FirebaseConnectorRalObject> _getRemoteConnectionRalObject(
     RalObjectRepository repository,

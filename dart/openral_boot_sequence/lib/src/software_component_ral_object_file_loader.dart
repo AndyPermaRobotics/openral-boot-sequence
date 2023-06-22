@@ -2,14 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:openral_boot_sequence/src/model/software_component_ral_object.dart';
-import 'package:openral_boot_sequence/src/model/software_component_specific_properties.dart';
 import 'package:openral_flutter/model/ral_object.dart';
 import 'package:openral_flutter/model/specific_properties.dart';
 
-///provides functionality for loading a [RalObject] from a file
-class RalObjectFileLoader {
+///provides functionality for loading a [RalObject<SoftwareComponentSpecificProperties>] from a file
+class SoftwareComponentRalObjectFileLoader {
   ///loads a [RalObject] from a file
-  static SoftwareComponentRalObject load<S extends SpecificProperties>(String path) {
+  static SoftwareComponentRalObject load(String path) {
     // read the contents of the file
     String jsonString = File(path).readAsStringSync();
 

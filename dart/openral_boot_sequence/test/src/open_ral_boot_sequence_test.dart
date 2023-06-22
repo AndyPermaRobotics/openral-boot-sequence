@@ -29,7 +29,7 @@ void main() {
           //downstream discovery
 
           expect(
-            bootResult.downstreamTopNode.toTreeString().trim(),
+            bootResult.localTopNode.toTreeString().trim(),
             '''
 me_pc
   mqtt_id
@@ -40,7 +40,7 @@ me_pc
           );
 
           expect(
-            bootResult.upstreamTopNode!.toTreeString().trim(),
+            bootResult.remoteTopNode!.toTreeString().trim(),
             '''
 farm_id
   me_pc
