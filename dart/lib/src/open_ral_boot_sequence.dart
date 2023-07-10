@@ -53,7 +53,7 @@ class OpenRalBootSequence {
 
     //Update the local file, if the own RalObject has changed in the local database
     if (updateLocalFile) {
-      await _updateLocalFile(
+      _ralObject = await _updateLocalFile(
         repo: localRepo,
         ralObject: _ralObject!,
       );
@@ -84,6 +84,8 @@ class OpenRalBootSequence {
       return BootSequenceResult(
         localTopNode: downstreamTopNode,
         remoteTopNode: null,
+        localRepository: localRepo,
+        thisRalObject: _ralObject!,
       );
     } else {
       //3. What can others do? / Upstream Discovery
@@ -116,6 +118,9 @@ class OpenRalBootSequence {
         return BootSequenceResult(
           localTopNode: downstreamTopNode,
           remoteTopNode: upstreamTopNode,
+          localRepository: localRepo,
+          remoteRepository: remoteRalRepository,
+          thisRalObject: _ralObject!,
         );
       } catch (e) {
         print("Skipping remote discovery because of error: $e");
@@ -123,12 +128,14 @@ class OpenRalBootSequence {
         return BootSequenceResult(
           localTopNode: downstreamTopNode,
           remoteTopNode: null,
+          localRepository: localRepo,
+          thisRalObject: _ralObject!,
         );
       }
     }
   }
 
-  Future<void> _updateLocalFile({
+  Future<SoftwareComponentRalObject> _updateLocalFile({
     required SoftwareComponentRalObject ralObject,
     required RalObjectRepository repo,
   }) async {
@@ -140,6 +147,10 @@ class OpenRalBootSequence {
       jsonEncode(
         updatedObject.toMap(),
       ),
+    );
+
+    return updatedObject.transformTo<SoftwareComponentSpecificProperties>(
+      (specificProperties) => SoftwareComponentSpecificProperties(specificProperties.map),
     );
   }
 

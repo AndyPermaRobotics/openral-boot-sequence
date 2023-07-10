@@ -8,8 +8,19 @@ class BootSequenceResult {
   ///is null, if no remote connection is available
   final GraphNode? remoteTopNode;
 
+  final RalObjectRepository localRepository;
+
+  ///the remote repository is null, if no remote connection is available
+  final RalObjectRepository? remoteRepository;
+
+  //the RalObject that represents the currently running software component
+  final RalObject thisRalObject;
+
   BootSequenceResult({
     required this.localTopNode,
     this.remoteTopNode,
+    required this.localRepository,
+    this.remoteRepository,
+    required this.thisRalObject,
   });
 }
