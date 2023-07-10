@@ -88,34 +88,43 @@ class OpenRalBootSequence {
     } else {
       //3. What can others do? / Upstream Discovery
 
-      FirebaseConnectorRalObject remoteRalObject = await _getRemoteConnectionRalObject(
-        localRepo,
-        remoteDatabaseConnectionUID,
-      );
+      try {
+        FirebaseConnectorRalObject remoteRalObject = await _getRemoteConnectionRalObject(
+          localRepo,
+          remoteDatabaseConnectionUID,
+        );
 
-      final remoteRalRepository = await createRemoteRalRepository(remoteRalObject.specificProperties);
+        final remoteRalRepository = await createRemoteRalRepository(remoteRalObject.specificProperties);
 
-      // print("Starting upstream discovery...");
+        // print("Starting upstream discovery...");
 
-      final upstreamDiscovery = Discovery(
-        ralRepository: remoteRalRepository,
-        rootNodeRalType: remoteTopNoteRalType,
-        primaryDiscoveryDimension: DiscoveryDimension.containerId,
-        startObject: _ralObject!,
-        discoveryDimensions: [
-          DiscoveryDimension.containerId,
-          DiscoveryDimension.owner,
-        ],
-      );
+        final upstreamDiscovery = Discovery(
+          ralRepository: remoteRalRepository,
+          rootNodeRalType: remoteTopNoteRalType,
+          primaryDiscoveryDimension: DiscoveryDimension.containerId,
+          startObject: _ralObject!,
+          discoveryDimensions: [
+            DiscoveryDimension.containerId,
+            DiscoveryDimension.owner,
+          ],
+        );
 
-      final upstreamTopNode = await upstreamDiscovery.execute();
+        final upstreamTopNode = await upstreamDiscovery.execute();
 
-      // print("Found ${upstreamTopNode.allChildren().length} remote RalObjects + top node.");
+        // print("Found ${upstreamTopNode.allChildren().length} remote RalObjects + top node.");
 
-      return BootSequenceResult(
-        localTopNode: downstreamTopNode,
-        remoteTopNode: upstreamTopNode,
-      );
+        return BootSequenceResult(
+          localTopNode: downstreamTopNode,
+          remoteTopNode: upstreamTopNode,
+        );
+      } catch (e) {
+        print("Skipping remote discovery because of error: $e");
+
+        return BootSequenceResult(
+          localTopNode: downstreamTopNode,
+          remoteTopNode: null,
+        );
+      }
     }
   }
 
